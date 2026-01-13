@@ -1,0 +1,32 @@
+# This file should be placed in oppiabot-test repository at:
+# .github/workflows/oppiabot-test.yml
+
+name: Oppiabot Test
+
+on:
+  pull_request_target:
+    types: [opened, reopened, edited, synchronize]
+    branches:
+      - main
+      - master
+  pull_request:
+    types: [labeled, unlabeled]
+  issues:
+    types: [labeled]
+
+jobs:
+  oppiabot-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Oppiabot Checks
+        uses: lkbhitesh07/oppiabot@actions-octokit-fix
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          SHEETS_TOKEN: ${{ secrets.SHEETS_TOKEN }}
+          SHEETS_CRED: ${{ secrets.SHEETS_CRED }}
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+
